@@ -1,6 +1,16 @@
 "use client";
 
-import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
+import Link from "next/link";
+import {
+  IoCloseOutline,
+  IoSearchOutline,
+  IoPersonOutline,
+  IoTicketOutline,
+  IoLogInOutline,
+  IoLogOutOutline,
+  IoShirtOutline,
+  IoPeopleOutline,
+} from "react-icons/io5";
 
 const Sidebar = () => {
   return (
@@ -28,6 +38,66 @@ const Sidebar = () => {
             className="w-full bg-gray-50 rounded py-1 px-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
           />
         </div>
+
+        {/* Menu options */}
+        <Link
+          href="/"
+          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        >
+          <IoPersonOutline size={25} />
+          <span className="ml-3 text-xl">Profile</span>
+        </Link>
+
+        <Link
+          href="/"
+          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        >
+          <IoTicketOutline size={25} />
+          <span className="ml-3 text-xl">Orders</span>
+        </Link>
+
+        <Link
+          href="/"
+          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        >
+          <IoLogInOutline size={25} />
+          <span className="ml-3 text-xl">Log in</span>
+        </Link>
+
+        <Link
+          href="/"
+          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        >
+          <IoLogOutOutline size={25} />
+          <span className="ml-3 text-xl">Log out</span>
+        </Link>
+
+        {/* Line separator */}
+        <div className="w-full h-px bg-gray-200 my-10" />
+
+        <Link
+          href="/"
+          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        >
+          <IoShirtOutline size={25} />
+          <span className="ml-3 text-xl">Products</span>
+        </Link>
+
+        <Link
+          href="/"
+          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        >
+          <IoTicketOutline size={25} />
+          <span className="ml-3 text-xl">Orders</span>
+        </Link>
+
+        <Link
+          href="/"
+          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        >
+          <IoPeopleOutline size={25} />
+          <span className="ml-3 text-xl">Users</span>
+        </Link>
       </nav>
     </div>
   );
