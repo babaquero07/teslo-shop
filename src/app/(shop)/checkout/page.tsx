@@ -3,7 +3,6 @@ import Link from "next/link";
 import Title from "@/components/ui/title/Title";
 import { initialData } from "@/seed/seed";
 import Image from "next/image";
-import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
 
 const productsInCart = [
   initialData.products[0],
