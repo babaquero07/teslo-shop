@@ -2,7 +2,7 @@ import { titleFont } from "@/config/fonts";
 interface Props {
   title: string;
   subtitle?: string;
-  className: string;
+  className?: string;
 }
 
 const Title = ({ title, subtitle, className }: Props) => {
