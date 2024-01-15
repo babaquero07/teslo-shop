@@ -3,7 +3,8 @@ import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
 
 import SizeSelector from "@/components/product/size-selector/SizeSelector";
-import QuantitySelector from "../../../../components/product/quantity-selector/QuantitySelector";
+import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
+import ProductSlideShow from "@/components/product/slide-show/ProductSlideShow";
 
 interface Props {
   params: {
@@ -24,7 +25,7 @@ export default function ({ params }: Props) {
     <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
       {/* Slideshow */}
       <div className="col-span-1 md:col-span-2">
-        <h1>Slide show</h1>
+        <ProductSlideShow title={product.title} images={product.images} />
       </div>
 
       {/* Details */}
