@@ -17,7 +17,7 @@ const TopMenu = () => {
           <span className={`${titleFont.className} antialiased font-bold`}>
             Teslo
           </span>
-          <span>| Shop</span>
+          <span> | Shop</span>
         </Link>
       </div>
 
