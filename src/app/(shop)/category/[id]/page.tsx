@@ -1,4 +1,5 @@
-import { Category, initialData } from "@/seed/seed";
+import { initialData } from "@/seed/seed";
+import { Category } from "@/interfaces/index";
 import Title from "@/components/ui/title/Title";
 import ProductGrid from "@/components/products/product-grid/product-grid";
 
