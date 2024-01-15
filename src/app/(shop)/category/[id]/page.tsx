@@ -1,21 +1,33 @@
-import { notFound } from "next/navigation";
+import { Category, initialData } from "@/seed/seed";
+import Title from "@/components/ui/title/Title";
+import ProductGrid from "@/components/products/product-grid/product-grid";
+
+const seedProducts = initialData.products;
+
+const capitalizeFirstLetter = (string: string): string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 interface Props {
   params: {
-    id: string;
+    id: Category;
   };
 }
 
 export default function ({ params }: Props) {
   const { id } = params;
 
-  if (id === "kids") {
-    notFound();
-  }
+  const products = seedProducts.filter((product) => product.gender === id);
 
   return (
-    <div>
-      <h1>Category page</h1>
-    </div>
+    <>
+      <Title
+        title={`${capitalizeFirstLetter(id)} category`}
+        subtitle="All products"
+        className="mb-2"
+      />
+
+      <ProductGrid products={products} />
+    </>
   );
 }
