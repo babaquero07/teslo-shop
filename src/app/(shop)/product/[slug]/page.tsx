@@ -3,6 +3,7 @@ import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
 
 import SizeSelector from "@/components/product/size-selector/SizeSelector";
+import QuantitySelector from "../../../../components/product/quantity-selector/QuantitySelector";
 
 interface Props {
   params: {
@@ -40,6 +41,7 @@ export default function ({ params }: Props) {
         />
 
         {/* Quantity selector */}
+        <QuantitySelector quantity={2} />
 
         {/* Button */}
         <button className="btn-primary my-5">Add to cart</button>
