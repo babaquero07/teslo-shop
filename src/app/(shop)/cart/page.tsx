@@ -65,7 +65,7 @@ export default function () {
               <span className="mt-5 text-2xl text-right">$ 100</span>
             </div>
 
-            <div className="mt-5 mb-2 w-full align-bottom">
+            <div className="mt-5 mb-2 w-full">
               <Link
                 className="flex btn-primary justify-center"
                 href="/checkout/address"
