@@ -21,6 +21,27 @@ async function main() {
     data: categoriesData,
   });
 
+  const categoriesDB = await prisma.category.findMany();
+
+  const categoriesMap = categoriesDB.reduce((map, category) => {
+    map[category.name.toLocaleLowerCase()] = category.id;
+    return map;
+  }, {} as Record<string, string>);
+
+  // Products
+  products.forEach(async (product) => {
+    const { type, images, ...rest } = product;
+
+    const dbProduct = await prisma.product.create({
+      data: {
+        ...rest,
+        categoryId: categoriesMap[type],
+      },
+    });
+
+    // Images
+  });
+
   console.log("Seed executed!");
 }
 
