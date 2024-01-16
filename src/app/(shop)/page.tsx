@@ -3,8 +3,16 @@ import ProductGrid from "@/components/products/product-grid/product-grid";
 
 import { getPaginatedProductsWithImages } from "@/actions/products/product-paginations";
 
-const Home = async () => {
-  const { products } = await getPaginatedProductsWithImages(1, 3);
+interface Props {
+  searchParams: {
+    page?: string;
+  };
+}
+
+const Home = async ({ searchParams }: Props) => {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+
+  const { products } = await getPaginatedProductsWithImages({ page });
 
   return (
     <>
