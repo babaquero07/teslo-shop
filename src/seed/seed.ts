@@ -16,10 +16,12 @@ type Type = "shirts" | "pants" | "hoodies" | "hats";
 type Category = "men" | "women" | "kid" | "unisex";
 
 interface SeedData {
+  categories: string[];
   products: SeedProduct[];
 }
 
 export const initialData: SeedData = {
+  categories: ["Shirts", "Pants", "Hoodies", "Hats"],
   products: [
     {
       description:
