@@ -13,7 +13,8 @@ interface Props {
 const Home = async ({ searchParams }: Props) => {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
 
-  const { products } = await getPaginatedProductsWithImages({ page });
+  const { products, currentPage, totalPages } =
+    await getPaginatedProductsWithImages({ page });
 
   if (products.length === 0) {
     redirect("/");
