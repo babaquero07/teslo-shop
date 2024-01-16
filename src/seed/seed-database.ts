@@ -4,11 +4,9 @@ import { initialData } from "./seed";
 
 async function main() {
   // Delete all data
-  await Promise.all([
-    await prisma.productImage.deleteMany(),
-    await prisma.product.deleteMany(),
-    await prisma.category.deleteMany(),
-  ]);
+  await prisma.productImage.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
 
   const { categories, products } = initialData;
 
@@ -40,6 +38,14 @@ async function main() {
     });
 
     // Images
+    const imagesData = images.map((image) => ({
+      url: image,
+      productId: dbProduct.id,
+    }));
+
+    await prisma.productImage.createMany({
+      data: imagesData,
+    });
   });
 
   console.log("Seed executed!");
