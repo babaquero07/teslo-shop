@@ -7,4 +7,5 @@
 3. Install dependencies `npm install`
 4. Start the database `docker compose up -d`
 5. Run prisma migrations `npx prisma migrate dev`
-6. Run the project `npm run dev`
+6. Ejecutar seed `npx run seed`
+7. Run the project `npm run dev`
