@@ -1,8 +1,10 @@
+import { redirect } from "next/navigation";
+
 import Title from "@/components/ui/title/Title";
 import ProductGrid from "@/components/products/product-grid/product-grid";
+import Pagination from "@/components/ui/pagination/Pagination";
 
 import { getPaginatedProductsWithImages } from "@/actions/products/product-paginations";
-import { redirect } from "next/navigation";
 
 interface Props {
   searchParams: {
@@ -25,6 +27,8 @@ const Home = async ({ searchParams }: Props) => {
       <Title title="Shop" subtitle="All products" className="mb-2" />
 
       <ProductGrid products={products} />
+
+      <Pagination totalPages={totalPages} />
     </>
   );
 };
