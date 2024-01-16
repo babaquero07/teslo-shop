@@ -2,6 +2,7 @@ import Title from "@/components/ui/title/Title";
 import ProductGrid from "@/components/products/product-grid/product-grid";
 
 import { getPaginatedProductsWithImages } from "@/actions/products/product-paginations";
+import { redirect } from "next/navigation";
 
 interface Props {
   searchParams: {
@@ -13,6 +14,10 @@ const Home = async ({ searchParams }: Props) => {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
 
   const { products } = await getPaginatedProductsWithImages({ page });
+
+  if (products.length === 0) {
+    redirect("/");
+  }
 
   return (
     <>
