@@ -1,10 +1,11 @@
 export const revalidate = 10080; // 7 days
 
-import { titleFont } from "@/config/fonts";
+import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getProductBySlug } from "@/actions";
 
+import { titleFont } from "@/config/fonts";
 import SizeSelector from "@/components/product/size-selector/SizeSelector";
 import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
 import ProductSlideShow from "@/components/product/slide-show/ProductSlideShow";
@@ -14,6 +15,30 @@ import StockLabel from "@/components/product/stock-label/StockLabel";
 interface Props {
   params: {
     slug: string;
+  };
+}
+
+// Metadata - SEO
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = params;
+
+  const product = await getProductBySlug(slug);
+
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+
+  return {
+    title: product?.title ?? "Product not found",
+    description: product?.description ?? "",
+    openGraph: {
+      title: product?.title ?? "Product not found",
+      description: product?.description ?? "",
+      images: [`/products/${product?.ProductImage[1]}`],
+      //TODO:  images: ['https://myweb.com/products/image.png'],
+    },
   };
 }
 

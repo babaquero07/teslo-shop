@@ -3,8 +3,11 @@ import "./globals.css";
 import { inter } from "@/config/fonts";
 
 export const metadata: Metadata = {
-  title: "Teslo shop",
-  description: "SEO friendly description.",
+  title: {
+    template: "%s - Teslo | Shop",
+    default: "Home - Teslo | Shop",
+  },
+  description: "Teslo | Shop ",
 };
 
 export default function RootLayout({
