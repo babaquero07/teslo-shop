@@ -6,7 +6,7 @@ import Title from "@/components/ui/title/Title";
 import ProductGrid from "@/components/products/product-grid/product-grid";
 import Pagination from "@/components/ui/pagination/Pagination";
 
-import { getPaginatedProductsWithImages } from "@/actions/products/product-paginations";
+import { getPaginatedProductsWithImages } from "@/actions/index";
 
 interface Props {
   searchParams: {

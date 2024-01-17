@@ -1,7 +1,7 @@
 export const revalidate = 60;
 
 import { redirect } from "next/navigation";
-import { getPaginatedProductsWithImages } from "@/actions/products/product-paginations";
+import { getPaginatedProductsWithImages } from "@/actions/index";
 
 import Title from "@/components/ui/title/Title";
 import ProductGrid from "@/components/products/product-grid/product-grid";
