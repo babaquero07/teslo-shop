@@ -21,12 +21,23 @@ const StockLabel = ({ slug }: Props) => {
     const inStock = await getStockBySlug(slug);
 
     setStock(inStock);
+    setIsLoading(false);
   };
 
   return (
-    <p className={`${titleFont.className} antialiased text-lg`}>
-      {`Stock: ${stock}`}
-    </p>
+    <>
+      {isLoading ? (
+        <p
+          className={`${titleFont.className} antialiased text-lg bg-gray-200 animate-pulse`}
+        >
+          &nbsp;
+        </p>
+      ) : (
+        <p className={`${titleFont.className} antialiased text-lg`}>
+          {`Stock: ${stock}`}
+        </p>
+      )}
+    </>
   );
 };
 
