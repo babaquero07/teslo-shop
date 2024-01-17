@@ -3,12 +3,13 @@ export const revalidate = 10080; // 7 days
 import { titleFont } from "@/config/fonts";
 import { notFound } from "next/navigation";
 
-import { getProductBySlug } from "@/actions/index";
+import { getProductBySlug } from "@/actions";
 
 import SizeSelector from "@/components/product/size-selector/SizeSelector";
 import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
 import ProductSlideShow from "@/components/product/slide-show/ProductSlideShow";
 import ProductMobileSlideShow from "@/components/product/slide-show/ProductMobileSlideShow";
+import StockLabel from "@/components/product/stock-label/StockLabel";
 
 interface Props {
   params: {
@@ -49,6 +50,9 @@ export default async function ProductSlugPage({ params }: Props) {
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
           {product.title}
         </h1>
+
+        <StockLabel slug={product.slug} />
+
         <p className="text-lg mb-5">${product.price}</p>
 
         {/* Sizes selector */}
