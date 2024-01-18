@@ -22,7 +22,7 @@ const ProductsInCart = () => {
 
   useEffect(() => {
     setLoaded(true);
-  });
+  }, []);
 
   if (!loaded) {
     return <p>Loading...</p>;
