@@ -10,6 +10,7 @@ import ProductSlideShow from "@/components/product/slide-show/ProductSlideShow";
 import ProductMobileSlideShow from "@/components/product/slide-show/ProductMobileSlideShow";
 import StockLabel from "@/components/product/stock-label/StockLabel";
 import AddToCart from "./ui/AddToCart";
+import { currencyFormat } from "@/utils";
 
 interface Props {
   params: {
@@ -77,7 +78,7 @@ export default async function ProductSlugPage({ params }: Props) {
 
         <StockLabel slug={product.slug} />
 
-        <p className="text-lg mb-5">${product.price}</p>
+        <p className="text-lg mb-5">{currencyFormat(product.price)}</p>
 
         {/* Add to cart */}
         <AddToCart product={product} />

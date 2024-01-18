@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { useCartStore } from "@/store";
+import { currencyFormat } from "@/utils";
 
 const OrderSummary = () => {
   const [loaded, setLoaded] = useState(false);
@@ -32,11 +33,13 @@ const OrderSummary = () => {
               {totalItems === 1 ? "1 product" : `${totalItems} products`}
             </span>
             <span>Subtotal</span>
-            <span className="text-right">$ {subTotal}</span>
+            <span className="text-right">{currencyFormat(subTotal)}</span>
             <span>Taxes (15 %)</span>
-            <span className="text-right">$ {taxes}</span>
+            <span className="text-right">{currencyFormat(taxes)}</span>
             <span className="text-2xl mt-5">Total</span>
-            <span className="mt-5 text-2xl text-right">$ {total}</span>
+            <span className="mt-5 text-2xl text-right">
+              {currencyFormat(total)}
+            </span>
           </div>
 
           <div className="mt-5 mb-2 w-full">
