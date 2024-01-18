@@ -6,11 +6,10 @@ import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/actions";
 
 import { titleFont } from "@/config/fonts";
-import SizeSelector from "@/components/product/size-selector/SizeSelector";
-import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
 import ProductSlideShow from "@/components/product/slide-show/ProductSlideShow";
 import ProductMobileSlideShow from "@/components/product/slide-show/ProductMobileSlideShow";
 import StockLabel from "@/components/product/stock-label/StockLabel";
+import AddToCart from "./ui/AddToCart";
 
 interface Props {
   params: {
@@ -80,17 +79,8 @@ export default async function ProductSlugPage({ params }: Props) {
 
         <p className="text-lg mb-5">${product.price}</p>
 
-        {/* Sizes selector */}
-        <SizeSelector
-          selectedSize={product.sizes[0]}
-          availableSizes={product.sizes}
-        />
-
-        {/* Quantity selector */}
-        <QuantitySelector quantity={2} />
-
-        {/* Button */}
-        <button className="btn-primary my-5">Add to cart</button>
+        {/* Add to cart */}
+        <AddToCart product={product} />
 
         {/* Description */}
         <h3 className="font-bold text-sm">Description</h3>
