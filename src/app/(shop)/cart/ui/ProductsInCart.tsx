@@ -11,7 +11,14 @@ import QuantitySelector from "@/components/product/quantity-selector/QuantitySel
 
 const ProductsInCart = () => {
   const [loaded, setLoaded] = useState(false);
+
   const productsInCart = useCartStore((state) => state.cart);
+  const updateProductQuantity = useCartStore(
+    (state) => state.updateProductQuantity
+  );
+  const removeProductFromCart = useCartStore(
+    (state) => state.removeProductFromCart
+  );
 
   useEffect(() => {
     setLoaded(true);
@@ -48,10 +55,17 @@ const ProductsInCart = () => {
             <p>${product.price}</p>
             <QuantitySelector
               quantity={product.quantity}
-              onQuantityChanged={() => console.log("quantity changed")}
+              onQuantityChanged={(quantity) =>
+                updateProductQuantity(product, quantity)
+              }
             />
 
-            <button className="underline mt-3">Remover</button>
+            <button
+              onClick={() => removeProductFromCart(product)}
+              className="underline mt-3"
+            >
+              Remover
+            </button>
           </div>
         </div>
       ))}

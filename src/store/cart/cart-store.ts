@@ -46,6 +46,30 @@ export const useCartStore = create<State>()(
 
         set({ cart: updatedCartProducts });
       },
+
+      updateProductQuantity: (product: CartProduct, quantity: number) => {
+        const { cart } = get();
+
+        const updatedCartProducts = cart.map((item) => {
+          if (item.id === product.id && item.size === product.size) {
+            return { ...item, quantity };
+          }
+
+          return item;
+        });
+
+        set({ cart: updatedCartProducts });
+      },
+
+      removeProductFromCart: (product: CartProduct) => {
+        const { cart } = get();
+
+        const updatedCartProducts = cart.filter(
+          (item) => item.id !== product.id || item.size !== product.size
+        );
+
+        set({ cart: updatedCartProducts });
+      },
     }),
     {
       name: "shopping-cart",
