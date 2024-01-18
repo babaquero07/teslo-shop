@@ -14,11 +14,18 @@ interface Props {
 const AddToCart = ({ product }: Props) => {
   const [size, setSize] = useState<Size | undefined>();
   const [quantity, setQuantity] = useState<number>(1);
+  const [posted, setPosted] = useState(false);
 
-  const addToCart = () => {};
+  const addToCart = () => {
+    setPosted(true);
+  };
 
   return (
     <>
+      {posted && !size && (
+        <span className="text-red-500 fade-in">Please select a size*</span>
+      )}
+
       <SizeSelector
         selectedSize={size}
         availableSizes={product.sizes}
