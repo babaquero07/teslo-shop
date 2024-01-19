@@ -14,12 +14,14 @@ const LoginForm = () => {
       <input
         className="px-5 py-2 border bg-gray-200 rounded mb-5"
         type="email"
+        name="email"
       />
 
       <label htmlFor="password">Password</label>
       <input
         className="px-5 py-2 border bg-gray-200 rounded mb-5"
         type="password"
+        name="password"
       />
 
       <button type="submit" className="btn-primary">
