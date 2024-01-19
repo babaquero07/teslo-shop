@@ -2,17 +2,10 @@
 
 import { signIn } from "@/auth.config";
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
+export async function authenticate(formData: FormData) {
   try {
-    await signIn("credentials", Object.fromEntries(formData));
+    await signIn("credentials", formData);
   } catch (error) {
-    // if ((error as Error).message.includes("CredentialsSignin")) {
-    // }
-    return "CredentialsSignin";
-
-    // throw error;
+    return "Something went wrong.";
   }
 }
