@@ -9,7 +9,6 @@ import { IoInformationOutline } from "react-icons/io5";
 
 const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined);
-  console.log("🚀 ~ LoginForm ~ state:", state);
 
   return (
     <form className="flex flex-col" action={dispatch}>
@@ -32,7 +31,7 @@ const LoginForm = () => {
         aria-live="polite"
         aria-atomic="true"
       >
-        {state === "Something went wrong." && (
+        {state === "CredentialsSignin" && (
           <div className="flex flex-row mb-4">
             <IoInformationOutline className="h-5 w-5 text-red-500" />
             <p className="text-sm text-red-500">Invalid credentials</p>
