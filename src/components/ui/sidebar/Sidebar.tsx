@@ -64,7 +64,8 @@ const Sidebar = () => {
 
         {/* Menu options */}
         <Link
-          href="/"
+          onClick={() => closeMenu()}
+          href="/profile"
           className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
         >
           <IoPersonOutline size={25} />
