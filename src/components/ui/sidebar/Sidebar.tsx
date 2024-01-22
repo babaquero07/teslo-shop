@@ -16,6 +16,7 @@ import {
 import { useUIStore } from "@/store/index";
 
 import clsx from "clsx";
+import { logout } from "@/actions";
 
 const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
@@ -88,13 +89,13 @@ const Sidebar = () => {
           <span className="ml-3 text-xl">Log in</span>
         </Link>
 
-        <Link
-          href="/"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        <button
+          className="w-full flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={() => logout()}
         >
           <IoLogOutOutline size={25} />
           <span className="ml-3 text-xl">Log out</span>
-        </Link>
+        </button>
 
         {/* Line separator */}
         <div className="w-full h-px bg-gray-200 my-10" />
