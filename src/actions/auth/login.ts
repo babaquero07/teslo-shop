@@ -7,8 +7,17 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    await signIn("credentials", Object.fromEntries(formData));
+    await signIn("credentials", {
+      ...Object.fromEntries(formData),
+      redirect: false,
+    });
+
+    return "Success";
   } catch (error) {
-    return "CredentialsSignin";
+    if ((error as any).type === "CredentialsSignIn") {
+      return "CredentialsSignIn";
+    }
+
+    return "Something went wrong";
   }
 }

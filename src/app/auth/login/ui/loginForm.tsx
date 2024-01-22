@@ -1,14 +1,26 @@
 "use client";
 
-import { authenticate } from "@/actions";
-import clsx from "clsx";
-import Link from "next/link";
+import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { authenticate } from "@/actions";
+
+import clsx from "clsx";
 import { IoInformationOutline } from "react-icons/io5";
 
 const LoginForm = () => {
+  const router = useRouter();
+
   const [state, dispatch] = useFormState(authenticate, undefined);
+
+  useEffect(() => {
+    if (state === "Success") {
+      router.replace("/");
+    }
+  }, [state]);
 
   return (
     <form className="flex flex-col" action={dispatch}>
@@ -31,7 +43,7 @@ const LoginForm = () => {
         aria-live="polite"
         aria-atomic="true"
       >
-        {state === "CredentialsSignin" && (
+        {state === "CredentialsSignIn" && (
           <div className="flex flex-row mb-4">
             <IoInformationOutline className="h-5 w-5 text-red-500" />
             <p className="text-sm text-red-500">Invalid credentials</p>
