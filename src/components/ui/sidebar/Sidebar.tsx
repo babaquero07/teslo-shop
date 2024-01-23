@@ -25,6 +25,7 @@ const Sidebar = () => {
   const closeMenu = useUIStore((state) => state.closeSideMenu);
 
   const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
 
   return (
     <div>
@@ -85,22 +86,24 @@ const Sidebar = () => {
           <span className="ml-3 text-xl">Orders</span>
         </Link>
 
-        <Link
-          onClick={() => closeMenu()}
-          href="/auth/login"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoLogInOutline size={25} />
-          <span className="ml-3 text-xl">Log in</span>
-        </Link>
-
-        <button
-          className="w-full flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => logout()}
-        >
-          <IoLogOutOutline size={25} />
-          <span className="ml-3 text-xl">Log out</span>
-        </button>
+        {isAuthenticated ? (
+          <button
+            className="w-full flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            onClick={() => logout()}
+          >
+            <IoLogOutOutline size={25} />
+            <span className="ml-3 text-xl">Log out</span>
+          </button>
+        ) : (
+          <Link
+            onClick={() => closeMenu()}
+            href="/auth/login"
+            className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+          >
+            <IoLogInOutline size={25} />
+            <span className="ml-3 text-xl">Log in</span>
+          </Link>
+        )}
 
         {/* Line separator */}
         <div className="w-full h-px bg-gray-200 my-10" />
