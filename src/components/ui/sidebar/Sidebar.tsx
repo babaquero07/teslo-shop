@@ -15,12 +15,16 @@ import {
 
 import { useUIStore } from "@/store/index";
 
+import { useSession } from "next-auth/react";
+
 import clsx from "clsx";
 import { logout } from "@/actions";
 
 const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeMenu = useUIStore((state) => state.closeSideMenu);
+
+  const { data: session } = useSession();
 
   return (
     <div>
