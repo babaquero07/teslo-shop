@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import clsx from "clsx";
 
-import { registerUser } from "@/actions";
+import { login, registerUser } from "@/actions";
 
 type FormInputs = {
   name: string;
@@ -35,7 +35,8 @@ const RegisterForm = () => {
       return;
     }
 
-    console.log("🚀 ~ onSubmit ~ response:", response);
+    await login(email.toLocaleLowerCase(), password);
+    window.location.replace("/");
   };
 
   return (
