@@ -1,9 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 
 import { useForm } from "react-hook-form";
+
+import Link from "next/link";
 import clsx from "clsx";
+
+import { registerUser } from "@/actions";
 
 type FormInputs = {
   name: string;
@@ -12,6 +16,8 @@ type FormInputs = {
 };
 
 const RegisterForm = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -19,7 +25,17 @@ const RegisterForm = () => {
   } = useForm<FormInputs>();
 
   const onSubmit = async (data: FormInputs) => {
+    setErrorMessage("");
+
     const { name, email, password } = data;
+
+    const response = await registerUser(name, email, password);
+    if (!response.ok) {
+      setErrorMessage(response.message);
+      return;
+    }
+
+    console.log("🚀 ~ onSubmit ~ response:", response);
   };
 
   return (
@@ -46,7 +62,7 @@ const RegisterForm = () => {
         type="email"
         {...register("email", {
           required: true,
-          pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+          pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         })}
       />
 
@@ -58,6 +74,10 @@ const RegisterForm = () => {
         type="password"
         {...register("password", { required: true, minLength: 8 })}
       />
+
+      {errorMessage && (
+        <span className="text-red-500 mb-4">{errorMessage}</span>
+      )}
 
       <button className="btn-primary" type="submit">
         Continue
