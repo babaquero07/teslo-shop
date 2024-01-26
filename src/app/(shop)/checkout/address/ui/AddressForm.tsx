@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import { useAddressStore } from "@/store";
 import clsx from "clsx";
-import { Country } from "@/interfaces";
+import { Address, Country } from "@/interfaces";
 
 import { setUserAddress, deleteUserAddress } from "@/actions";
 import { useSession } from "next-auth/react";
@@ -24,9 +24,10 @@ type FormInputs = {
 
 interface Props {
   countries: Country[];
+  userStoredAddress?: Partial<Address>;
 }
 
-const AddressForm = ({ countries }: Props) => {
+const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
   const {
     handleSubmit,
     register,
@@ -34,7 +35,8 @@ const AddressForm = ({ countries }: Props) => {
     formState: { isValid },
   } = useForm<FormInputs>({
     defaultValues: {
-      // TODO: read from database
+      ...(userStoredAddress as any),
+      rememberAddress: false,
     },
   });
 
