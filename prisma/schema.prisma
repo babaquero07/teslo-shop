@@ -94,6 +94,7 @@ model UserAddress {
   address2  String?
   zipCode   String
   phone     String
+  city      String
 
   // Relations
   countryId String
