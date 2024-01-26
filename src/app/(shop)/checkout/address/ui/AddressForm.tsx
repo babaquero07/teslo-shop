@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import { useAddressStore } from "@/store";
 import clsx from "clsx";
 import { Country } from "@/interfaces";
-import { setUserAddress } from "@/actions";
 
+import { setUserAddress, deleteUserAddress } from "@/actions";
 import { useSession } from "next-auth/react";
 
 type FormInputs = {
@@ -51,15 +51,15 @@ const AddressForm = ({ countries }: Props) => {
     }
   }, [address, reset]);
 
-  const onSubmit = async (data: FormInputs) => {
+  const onSubmit = (data: FormInputs) => {
     setAddress(data);
 
     const { rememberAddress, ...restAddress } = data;
 
     if (rememberAddress) {
-      await setUserAddress(restAddress, session!.user.id);
+      setUserAddress(restAddress, session!.user.id);
     } else {
-      // TODO: remove address from database
+      deleteUserAddress(session!.user.id);
     }
   };
 
