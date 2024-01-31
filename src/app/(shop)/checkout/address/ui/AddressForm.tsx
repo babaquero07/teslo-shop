@@ -60,10 +60,22 @@ const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
   const onSubmit = (data: FormInputs) => {
     const { rememberAddress, ...restAddress } = data;
 
-    setAddress(restAddress);
+    const address = {
+      firstName: restAddress.firstName,
+      lastName: restAddress.lastName,
+      address: restAddress.address,
+      address2: restAddress.address2,
+      zipCode: restAddress.zipCode,
+      city: restAddress.city,
+      country: restAddress.country,
+      phone: restAddress.phone,
+      rememberAddress,
+    };
+
+    setAddress(address);
 
     if (rememberAddress) {
-      setUserAddress(restAddress, session!.user.id);
+      setUserAddress(address, session!.user.id);
     } else {
       deleteUserAddress(session!.user.id);
     }
