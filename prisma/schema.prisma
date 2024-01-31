@@ -110,7 +110,7 @@ model UserAddress {
 // Shopping orders
 model Order {
   id           String    @id @default(uuid())
-  subtotal     Float
+  subTotal     Float
   tax          Float
   total        Float
   itemsInOrder Int
