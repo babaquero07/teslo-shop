@@ -55,5 +55,35 @@ export const placeOrder = async (
     { subTotal: 0, tax: 0, total: 0 }
   );
 
-  // Create the order
+  // A database transaction refers to a sequence of read/write operations that are guaranteed to either succeed or fail as a whole
+  // Create transaction in database
+  const prismaTx = await prisma.$transaction(async (tx) => {
+    // 1. Update product stock
+
+    // 2. Create order - header - detail
+    const order = await tx.order.create({
+      data: {
+        userId: userId,
+        itemsInOrder: itemsInOrder,
+        subTotal: subTotal,
+        tax: tax,
+        total: total,
+
+        OrderItem: {
+          createMany: {
+            data: productIds.map((p) => ({
+              quantity: p.quantity,
+              size: p.size,
+              productId: p.productId,
+              price:
+                products.find((product) => product.id === p.productId)?.price ??
+                0,
+            })),
+          },
+        },
+      },
+    });
+
+    // 3. Create order address
+  });
 };
