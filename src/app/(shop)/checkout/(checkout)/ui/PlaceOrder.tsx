@@ -34,7 +34,7 @@ const PlaceOrder = () => {
       size: product.size,
     }));
 
-    await placeOrder(productsToOrder, address);
+    const res = await placeOrder(productsToOrder, address);
   };
 
   if (!loaded) {
