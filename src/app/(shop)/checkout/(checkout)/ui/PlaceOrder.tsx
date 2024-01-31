@@ -7,6 +7,8 @@ import { useCartStore, useAddressStore } from "@/store";
 import { currencyFormat } from "@/utils/currencyFormat";
 import clsx from "clsx";
 
+import { placeOrder } from "@/actions";
+
 const PlaceOrder = () => {
   const [loaded, setLoaded] = useState(false);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
@@ -31,6 +33,8 @@ const PlaceOrder = () => {
       quantity: product.quantity,
       size: product.size,
     }));
+
+    await placeOrder(productsToOrder, address);
   };
 
   if (!loaded) {
