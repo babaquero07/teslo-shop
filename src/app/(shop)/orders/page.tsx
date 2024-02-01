@@ -11,7 +11,6 @@ import { IoCardOutline } from "react-icons/io5";
 
 export default async function OrdersPage() {
   const { ok, orders } = await getOrdersByUser();
-  console.log("🚀 ~ OrdersPage ~ orders:", orders);
 
   if (!ok) {
     redirect("/auth/login");
