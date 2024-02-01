@@ -69,7 +69,6 @@ const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
       city: restAddress.city,
       country: restAddress.country,
       phone: restAddress.phone,
-      rememberAddress,
     };
 
     setAddress(address);

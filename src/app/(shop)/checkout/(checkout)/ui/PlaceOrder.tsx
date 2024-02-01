@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { useCartStore, useAddressStore } from "@/store";
 
@@ -10,16 +11,18 @@ import clsx from "clsx";
 import { placeOrder } from "@/actions";
 
 const PlaceOrder = () => {
+  const router = useRouter();
+
   const [loaded, setLoaded] = useState(false);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const address = useAddressStore((state) => state.address);
-
   const { totalItems, subTotal, taxes, total } = useCartStore((state) =>
     state.getOrderSummary()
   );
-
   const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   useEffect(() => {
     setLoaded(true);
@@ -35,6 +38,16 @@ const PlaceOrder = () => {
     }));
 
     const res = await placeOrder(productsToOrder, address);
+    if (!res.ok) {
+      setIsPlacingOrder(false);
+
+      setErrorMessage(res.message);
+      return;
+    }
+
+    // Order placed successfully
+    clearCart();
+    router.replace("/orders/" + res.order?.id);
   };
 
   if (!loaded) {
@@ -85,16 +98,16 @@ const PlaceOrder = () => {
           </span>
         </p>
 
-        {/* <p className="text-red-500">Error creating order</p> */}
+        <p className="text-red-500 mb-5">{errorMessage}</p>
 
         <button
           onClick={onPlaceOrder}
-          className={clsx({
+          className={clsx("w-[150px]", {
             "btn-primary": !isPlacingOrder,
             "btn-disabled": isPlacingOrder,
           })}
         >
-          Next
+          Complete order
         </button>
       </div>
     </div>
