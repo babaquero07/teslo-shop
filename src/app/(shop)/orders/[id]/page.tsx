@@ -2,6 +2,7 @@ import Title from "@/components/ui/title/Title";
 
 import clsx from "clsx";
 import { IoCardOutline } from "react-icons/io5";
+import { redirect } from "next/navigation";
 import { getOrderById } from "@/actions";
 
 import OrderItems from "./ui/OrderItems";
@@ -16,19 +17,19 @@ interface Props {
 export default async function OrderIdPage({ params }: Props) {
   const { id } = params;
 
-  const order = await getOrderById(id);
+  const { ok, order } = await getOrderById(id);
 
-  if (!order) {
-    return <h1>Order not found</h1>;
+  if (!ok) {
+    redirect("/");
   }
 
-  const orderAddress = order.OrderAddress;
-  const orderSummary = {
-    itemsInOrder: order.itemsInOrder,
-    subTotal: order.subTotal,
-    taxes: order.tax,
-    total: order.total,
-    isPaid: order.isPaid,
+  const address = order!.OrderAddress;
+  const summary = {
+    itemsInOrder: order!.itemsInOrder,
+    subTotal: order!.subTotal,
+    taxes: order!.tax,
+    total: order!.total,
+    isPaid: order!.isPaid,
   };
 
   return (
@@ -43,26 +44,23 @@ export default async function OrderIdPage({ params }: Props) {
               className={clsx(
                 "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
                 {
-                  "bg-red-500": !order.isPaid,
-                  "bg-green-700": order.isPaid,
+                  "bg-red-500": !order!.isPaid,
+                  "bg-green-700": order!.isPaid,
                 }
               )}
             >
               <IoCardOutline size={30} />
               <div className="mx-2">
-                {!order.isPaid ? "Pending to pay" : "Paid order"}
+                {!order!.isPaid ? "Pending to pay" : "Paid order"}
               </div>
             </div>
 
             {/* Items */}
-            <OrderItems orderItems={order.items} />
+            <OrderItems orderItems={order!.OrderItem} />
           </div>
 
           {/* Order summary */}
-          <OrderSummary
-            orderAddress={orderAddress}
-            orderSummary={orderSummary}
-          />
+          <OrderSummary address={address} summary={summary} />
         </div>
       </div>
     </div>

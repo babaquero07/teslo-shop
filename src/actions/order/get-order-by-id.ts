@@ -1,32 +1,42 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { auth } from "@/auth.config";
 
 export const getOrderById = async (orderId: string) => {
+  const session = await auth();
+
+  if (!session?.user) {
+    return {
+      ok: false,
+      error: "You need to be logged in to get order by id",
+    };
+  }
+
   try {
     const order = await prisma.order.findUnique({
       where: {
         id: orderId,
       },
       include: {
+        OrderAddress: true,
         OrderItem: {
-          include: {
+          select: {
+            price: true,
+            quantity: true,
+            size: true,
+
             product: {
-              include: {
+              select: {
+                title: true,
+                slug: true,
+
                 ProductImage: {
                   select: {
                     url: true,
                   },
+                  take: 1,
                 },
-              },
-            },
-          },
-        },
-        OrderAddress: {
-          include: {
-            country: {
-              select: {
-                name: true,
               },
             },
           },
@@ -34,25 +44,24 @@ export const getOrderById = async (orderId: string) => {
       },
     });
 
-    if (!order) return null;
+    if (!order) throw new Error(`Order not found with id: ${orderId}`);
 
-    const { OrderItem, ...rest } = order;
+    if (session.user.role === "user") {
+      if (order.userId !== session.user.id) {
+        throw new Error(`${orderId} is not your order`);
+      }
+    }
 
     return {
-      ...rest,
-      items: OrderItem.map((item) => {
-        const { product, ...rest } = item;
-
-        return {
-          ...rest,
-          title: item.product.title,
-          slug: item.product.slug,
-          images: item.product.ProductImage.map((image) => image.url),
-        };
-      }),
+      ok: true,
+      order,
     };
   } catch (error) {
     console.log(error);
-    throw new Error("Error getting order by id");
+
+    return {
+      ok: false,
+      error: "Failed to get order by id",
+    };
   }
 };

@@ -5,11 +5,11 @@ import { currencyFormat } from "@/utils/currencyFormat";
 const OrderItems = ({ orderItems }) => {
   return (
     <>
-      {orderItems.map((product) => (
-        <div key={product.slug} className="flex mb-5">
+      {orderItems.map(({ price, quantity, size, product }: any) => (
+        <div key={product.slug + "-" + size} className="flex mb-5">
           <Image
             className="mr-5 rounded"
-            src={`/products/${product.images[0]}`}
+            src={`/products/${product.ProductImage[0].url}`}
             width={100}
             height={100}
             style={{
@@ -21,13 +21,13 @@ const OrderItems = ({ orderItems }) => {
 
           <div>
             <p>
-              {product.title} - {product.size}
+              {product.title} - {size}
             </p>
             <p>
-              ${product.price} x {product.quantity}
+              ${price} x {quantity}
             </p>
             <p className="font-bold">
-              Subtotal: {currencyFormat(product.price * product.quantity)}
+              Subtotal: {currencyFormat(price * quantity)}
             </p>
           </div>
         </div>
