@@ -1,5 +1,5 @@
-import clsx from "clsx";
-import { IoCardOutline } from "react-icons/io5";
+import PayPalButton from "@/components/paypal/PaypalButton";
+
 import { currencyFormat } from "@/utils/currencyFormat";
 
 const OrderSummary = ({ address, summary }) => {
@@ -40,21 +40,9 @@ const OrderSummary = ({ address, summary }) => {
         </span>
       </div>
 
+      {/* PaypalButton */}
       <div className="mt-5 mb-2 w-full">
-        <div
-          className={clsx(
-            "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-            {
-              "bg-red-500": !summary.isPaid,
-              "bg-green-700": summary.isPaid,
-            }
-          )}
-        >
-          <IoCardOutline size={30} />
-          <div className="mx-2">
-            {!summary.isPaid ? "Pending to pay" : "Paid order"}
-          </div>
-        </div>
+        <PayPalButton />
       </div>
     </div>
   );

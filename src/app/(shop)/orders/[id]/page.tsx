@@ -1,12 +1,13 @@
 import Title from "@/components/ui/title/Title";
 
-import clsx from "clsx";
-import { IoCardOutline } from "react-icons/io5";
 import { redirect } from "next/navigation";
 import { getOrderById } from "@/actions";
 
 import OrderItems from "./ui/OrderItems";
 import OrderSummary from "./ui/OrderSummary";
+
+import clsx from "clsx";
+import { IoCardOutline } from "react-icons/io5";
 
 interface Props {
   params: {
