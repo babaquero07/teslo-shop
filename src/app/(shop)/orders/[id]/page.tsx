@@ -26,6 +26,7 @@ export default async function OrderIdPage({ params }: Props) {
 
   const address = order!.OrderAddress;
   const summary = {
+    orderId: order!.id,
     itemsInOrder: order!.itemsInOrder,
     subTotal: order!.subTotal,
     taxes: order!.tax,

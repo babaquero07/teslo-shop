@@ -42,7 +42,7 @@ const OrderSummary = ({ address, summary }) => {
 
       {/* PaypalButton */}
       <div className="mt-5 mb-2 w-full">
-        <PayPalButton />
+        <PayPalButton amount={summary.total} orderId={summary.orderId} />
       </div>
     </div>
   );
