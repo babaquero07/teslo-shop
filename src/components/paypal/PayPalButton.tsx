@@ -3,6 +3,8 @@
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { CreateOrderData, CreateOrderActions } from "@paypal/paypal-js";
 
+import { setTransactionId } from "@/actions";
+
 interface Props {
   orderId: string;
   amount: number;
@@ -35,7 +37,12 @@ const PayPalButton = ({ orderId, amount }: Props) => {
         },
       ],
     });
-    console.log("🚀 ~ createOrder ~ transactionId:", transactionId);
+
+    const { ok } = await setTransactionId(orderId, transactionId);
+
+    if (!ok) {
+      throw new Error("Failed to create order");
+    }
 
     return transactionId;
   };
