@@ -76,8 +76,6 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   }
 
   const { status, purchase_units } = res;
-  console.log("🚀 ~ paypalCheckPayment ~ status:", status);
-  console.log("🚀 ~ paypalCheckPayment ~ purchase_units:", purchase_units);
   if (status !== "COMPLETED") {
     return { ok: false, message: "Payment not completed" };
   }
