@@ -1,6 +1,9 @@
 "use server";
 
+import prisma from "@/lib/prisma";
+
 import { PayPalOrdeStatusResponse } from "@/interfaces";
+import { revalidatePath } from "next/cache";
 
 const getPayPalBearerToken = async (): Promise<string | null> => {
   const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
@@ -26,7 +29,10 @@ const getPayPalBearerToken = async (): Promise<string | null> => {
   };
 
   try {
-    const result = await fetch(oauth2url, requestOptions).then((r) => r.json());
+    const result = await fetch(oauth2url, {
+      ...requestOptions,
+      cache: "no-store",
+    }).then((r) => r.json());
 
     return result.access_token;
   } catch (error) {
@@ -50,10 +56,10 @@ const verifyPayPalPayment = async (
   };
 
   try {
-    const resp = await fetch(
-      `${paypalOrderUrl}/${paypalTransactionId}`,
-      requestOptions
-    ).then((response) => response.json());
+    const resp = await fetch(`${paypalOrderUrl}/${paypalTransactionId}`, {
+      ...requestOptions,
+      cache: "no-store",
+    }).then((response) => response.json());
 
     return resp;
   } catch (error) {
@@ -76,7 +82,29 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   }
 
   const { status, purchase_units } = res;
+  const { invoice_id: orderId } = purchase_units[0];
+
   if (status !== "COMPLETED") {
     return { ok: false, message: "Payment not completed" };
+  }
+
+  // Update order
+  try {
+    await prisma.order.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        isPaid: true,
+        paidAt: new Date(),
+      },
+    });
+
+    revalidatePath(`orders/${orderId}`);
+
+    return { ok: true };
+  } catch (error) {
+    console.log(error);
+    return { ok: false, message: "Failed to update order" };
   }
 };
