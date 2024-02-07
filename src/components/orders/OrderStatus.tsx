@@ -6,7 +6,6 @@ interface Props {
 }
 
 const OrderStatus = ({ isPaid }: Props) => {
-  console.log("🚀 ~ OrderStatus ~ isPaid:", isPaid);
   return (
     <div
       className={clsx(
