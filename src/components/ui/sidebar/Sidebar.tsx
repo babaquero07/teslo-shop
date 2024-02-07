@@ -52,7 +52,6 @@ const Sidebar = () => {
             "translate-x-0": isSideMenuOpen,
           }
         )}
-        style={{ zIndex: "200" }}
       >
         <IoCloseOutline
           size={25}
@@ -124,7 +123,8 @@ const Sidebar = () => {
             </Link>
 
             <Link
-              href="/"
+              onClick={() => closeMenu()}
+              href="/admin/orders"
               className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
             >
               <IoTicketOutline size={25} />
