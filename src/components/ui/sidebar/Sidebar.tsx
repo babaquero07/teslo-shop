@@ -52,6 +52,7 @@ const Sidebar = () => {
             "translate-x-0": isSideMenuOpen,
           }
         )}
+        style={{ zIndex: "200" }}
       >
         <IoCloseOutline
           size={25}
