@@ -5,9 +5,7 @@ import { getOrderById } from "@/actions";
 
 import OrderItems from "./ui/OrderItems";
 import OrderSummary from "./ui/OrderSummary";
-
-import clsx from "clsx";
-import { IoCardOutline } from "react-icons/io5";
+import OrderStatus from "@/components/orders/OrderStatus";
 
 interface Props {
   params: {
@@ -42,20 +40,7 @@ export default async function OrderIdPage({ params }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
           {/* Cart */}
           <div className="flex flex-col mt-5">
-            <div
-              className={clsx(
-                "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                {
-                  "bg-red-500": !order!.isPaid,
-                  "bg-green-700": order!.isPaid,
-                }
-              )}
-            >
-              <IoCardOutline size={30} />
-              <div className="mx-2">
-                {!order!.isPaid ? "Pending to pay" : "Paid order"}
-              </div>
-            </div>
+            <OrderStatus isPaid={order?.isPaid ?? false} />
 
             {/* Items */}
             <OrderItems orderItems={order!.OrderItem} />
