@@ -59,16 +59,6 @@ const Sidebar = () => {
           onClick={() => closeMenu()}
         />
 
-        {/* Input */}
-        <div className="relative mt-14">
-          <IoSearchOutline size={20} className="absolute top-2 left-2" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full bg-gray-50 rounded py-1 px-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
-          />
-        </div>
-
         {/* Menu options */}
         {isAuthenticated ? (
           <>
