@@ -60,11 +60,24 @@ export const createUpdateProduct = async (formData: FormData) => {
           },
         },
       });
-
-      console.log("Updated product:", product);
     } else {
       // create product
+      product = await prisma.product.create({
+        data: {
+          ...rest,
+          sizes: {
+            set: rest.sizes as Size[],
+          },
+          tags: {
+            set: tagsArray,
+          },
+        },
+      });
     }
+
+    return {
+      product,
+    };
   });
 
   return { ok: true };

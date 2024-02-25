@@ -19,7 +19,7 @@ const ProductPage = async ({ params }: Props) => {
     getCategories(),
   ]);
 
-  if (!product) {
+  if (!product && slug !== "new") {
     redirect("/admin/products");
   }
 
@@ -28,7 +28,7 @@ const ProductPage = async ({ params }: Props) => {
   return (
     <>
       <Title title={title} />
-      <ProductForm product={product} categories={categories} />
+      <ProductForm product={product ?? {}} categories={categories} />
     </>
   );
 };
