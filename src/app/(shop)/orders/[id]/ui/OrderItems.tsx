@@ -2,7 +2,7 @@ import ProductImage from "@/components/product/product-image/ProductImage";
 
 import { currencyFormat } from "@/utils/currencyFormat";
 
-const OrderItems = ({ orderItems }) => {
+const OrderItems = ({ orderItems }: { orderItems: any[] }) => {
   return (
     <>
       {orderItems.map(({ price, quantity, size, product }: any) => (

@@ -1,17 +1,16 @@
 "use client";
 
+import { useForm } from "react-hook-form";
 import {
-  Product,
   Category,
+  Product,
   ProductImage as ProductWithImage,
 } from "@/interfaces";
-
-import { useRouter } from "next/navigation";
-
-import { useForm } from "react-hook-form";
 import clsx from "clsx";
 
 import { createUpdateProduct, deleteProductImage } from "@/actions";
+
+import { useRouter } from "next/navigation";
 import ProductImage from "@/components/product/product-image/ProductImage";
 
 interface Props {
@@ -29,10 +28,9 @@ interface FormInputs {
   inStock: number;
   sizes: string[];
   tags: string;
-  gender: "men" | "women" | "unisex";
+  gender: "men" | "women" | "kid" | "unisex";
   categoryId: string;
 
-  // TODO: images
   images?: FileList;
 }
 
@@ -49,10 +47,9 @@ export const ProductForm = ({ product, categories }: Props) => {
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
-      tags: product.tags?.join(", ") ?? [],
+      tags: product.tags?.join(", "),
       sizes: product.sizes ?? [],
 
-      //Todo: images
       images: undefined,
     },
   });
@@ -60,10 +57,8 @@ export const ProductForm = ({ product, categories }: Props) => {
   watch("sizes");
 
   const onSizeChanged = (size: string) => {
-    // Si el tamaño ya está seleccionado, lo elimina, si no, lo agrega
     const sizes = new Set(getValues("sizes"));
     sizes.has(size) ? sizes.delete(size) : sizes.add(size);
-
     setValue("sizes", Array.from(sizes));
   };
 
@@ -95,7 +90,7 @@ export const ProductForm = ({ product, categories }: Props) => {
     const { ok, product: updatedProduct } = await createUpdateProduct(formData);
 
     if (!ok) {
-      alert("Product not saved");
+      alert("Producto no se pudo actualizar");
       return;
     }
 
@@ -110,7 +105,7 @@ export const ProductForm = ({ product, categories }: Props) => {
       {/* Textos */}
       <div className="w-full">
         <div className="flex flex-col mb-2">
-          <span>Title</span>
+          <span>Título</span>
           <input
             type="text"
             className="p-2 border rounded-md bg-gray-200"
@@ -128,7 +123,7 @@ export const ProductForm = ({ product, categories }: Props) => {
         </div>
 
         <div className="flex flex-col mb-2">
-          <span>Description</span>
+          <span>Descripción</span>
           <textarea
             rows={5}
             className="p-2 border rounded-md bg-gray-200"
@@ -160,21 +155,22 @@ export const ProductForm = ({ product, categories }: Props) => {
             className="p-2 border rounded-md bg-gray-200"
             {...register("gender", { required: true })}
           >
-            <option value="">[Select]</option>
+            <option value="">[Seleccione]</option>
             <option value="men">Men</option>
             <option value="women">Women</option>
+            <option value="kid">Kid</option>
             <option value="unisex">Unisex</option>
           </select>
         </div>
 
         <div className="flex flex-col mb-2">
-          <span>Category</span>
+          <span>Categoria</span>
           <select
             className="p-2 border rounded-md bg-gray-200"
             {...register("categoryId", { required: true })}
           >
-            <option value="">[Select]</option>
-            {categories.map((category: Category) => (
+            <option value="">[Seleccione]</option>
+            {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
               </option>
@@ -182,13 +178,13 @@ export const ProductForm = ({ product, categories }: Props) => {
           </select>
         </div>
 
-        <button className="btn-primary w-full">Save</button>
+        <button className="btn-primary w-full">Guardar</button>
       </div>
 
       {/* Selector de tallas y fotos */}
       <div className="w-full">
         <div className="flex flex-col mb-2">
-          <span>Stock</span>
+          <span>Inventario</span>
           <input
             type="number"
             className="p-2 border rounded-md bg-gray-200"
@@ -198,7 +194,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 
         {/* As checkboxes */}
         <div className="flex flex-col">
-          <span>Sizes</span>
+          <span>Tallas</span>
           <div className="flex flex-wrap">
             {sizes.map((size) => (
               // bg-blue-500 text-white <--- si está seleccionado
@@ -209,7 +205,6 @@ export const ProductForm = ({ product, categories }: Props) => {
                   "p-2 border cursor-pointer rounded-md mr-2 mb-2 w-14 transition-all text-center",
                   {
                     "bg-blue-500 text-white": getValues("sizes").includes(size),
-                    "bg-gray-200": !getValues("sizes").includes(size),
                   }
                 )}
               >
@@ -219,14 +214,13 @@ export const ProductForm = ({ product, categories }: Props) => {
           </div>
 
           <div className="flex flex-col mb-2">
-            <span>Images</span>
+            <span>Fotos</span>
             <input
               type="file"
               {...register("images")}
               multiple
-              placeholder="Select images..."
               className="p-2 border rounded-md bg-gray-200"
-              accept="image/png, image/jpeg image/avif"
+              accept="image/png, image/jpeg, image/avif"
             />
           </div>
 
@@ -234,18 +228,19 @@ export const ProductForm = ({ product, categories }: Props) => {
             {product.ProductImage?.map((image) => (
               <div key={image.id}>
                 <ProductImage
-                  src={image.url}
                   alt={product.title ?? ""}
-                  className="rounded-t shadow-md"
+                  src={image.url}
                   width={300}
                   height={300}
+                  className="rounded-t shadow-md"
                 />
+
                 <button
-                  onClick={() => deleteProductImage(image.id, image.url)}
                   type="button"
-                  className="btn-danger rounded-b-xl w-full"
+                  onClick={() => deleteProductImage(image.id, image.url)}
+                  className="btn-danger w-full rounded-b-xl"
                 >
-                  Delete
+                  Eliminar
                 </button>
               </div>
             ))}

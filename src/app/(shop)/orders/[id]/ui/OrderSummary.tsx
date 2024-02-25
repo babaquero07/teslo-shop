@@ -1,8 +1,8 @@
-import PayPalButton from "@/components/paypal/PaypalButton";
+import PayPalButton from "@/components/paypal/PayPalButton";
 
 import { currencyFormat } from "@/utils/currencyFormat";
 
-const OrderSummary = ({ address, summary }) => {
+const OrderSummary = ({ address, summary }: any) => {
   return (
     <div className="bg-white rounded-xl p-7">
       <h2 className="text-2xl font-bold mb-2">Shipping address</h2>
