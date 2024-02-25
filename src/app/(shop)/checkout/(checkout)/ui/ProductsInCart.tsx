@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 
-import Image from "next/image";
-
 import { useCartStore } from "@/store";
 
 import { currencyFormat } from "@/utils/currencyFormat";
+
+import ProductImage from "@/components/product/product-image/ProductImage";
 
 const ProductsInCart = () => {
   const [loaded, setLoaded] = useState(false);
@@ -25,9 +25,9 @@ const ProductsInCart = () => {
     <>
       {productsInCart.map((product, index) => (
         <div key={`product-${index + 1}`} className="flex mb-5">
-          <Image
+          <ProductImage
             className="mr-5 rounded"
-            src={`/products/${product.image}`}
+            src={product.image}
             width={100}
             height={100}
             style={{

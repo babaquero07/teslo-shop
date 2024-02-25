@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ProductImage from "@/components/product/product-image/ProductImage";
 
 import { currencyFormat } from "@/utils/currencyFormat";
 
@@ -7,9 +7,9 @@ const OrderItems = ({ orderItems }) => {
     <>
       {orderItems.map(({ price, quantity, size, product }: any) => (
         <div key={product.slug + "-" + size} className="flex mb-5">
-          <Image
+          <ProductImage
             className="mr-5 rounded"
-            src={`/products/${product.ProductImage[0].url}`}
+            src={product.ProductImage[0].url}
             width={100}
             height={100}
             style={{
