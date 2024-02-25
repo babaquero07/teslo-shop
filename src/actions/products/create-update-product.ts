@@ -6,6 +6,9 @@ import { Gender, Product, Size } from "@prisma/client";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
+import { v2 as cloudinary } from "cloudinary";
+cloudinary.config(process.env.CLOUDINARY_URL ?? "");
+
 const productSchema = z.object({
   id: z.string().uuid().optional().nullable(),
   title: z.string().min(3).max(255),
@@ -73,9 +76,11 @@ export const createUpdateProduct = async (formData: FormData) => {
         });
       }
 
-      // Load and save of images
+      // Load and save images
       if (formData.getAll("images")) {
         // TODO: Save images
+
+        const images = await uploadImages(formData.getAll("images") as File[]);
       }
 
       return {
@@ -92,5 +97,29 @@ export const createUpdateProduct = async (formData: FormData) => {
     console.log(error);
 
     return { ok: false, message: "Error saving product" };
+  }
+};
+
+const uploadImages = async (images: File[]) => {
+  try {
+    const uploadPromises = images.map(async (image) => {
+      try {
+        const buffer = await image.arrayBuffer();
+        const base64Image = Buffer.from(buffer).toString("base64");
+
+        return cloudinary.uploader
+          .upload(`data:image/png;base64,${base64Image}`)
+          .then((r) => r.secure_url);
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    });
+
+    const uploadedImages = await Promise.all(uploadPromises);
+    return uploadedImages;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 };
