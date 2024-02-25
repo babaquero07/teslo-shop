@@ -6,13 +6,12 @@ import {
   ProductImage as ProductWithImage,
 } from "@/interfaces";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
 
-import { createUpdateProduct } from "@/actions";
+import { createUpdateProduct, deleteProductImage } from "@/actions";
 import ProductImage from "@/components/product/product-image/ProductImage";
 
 interface Props {
@@ -242,7 +241,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                   height={300}
                 />
                 <button
-                  onClick={() => console.log(image.id, image.url)}
+                  onClick={() => deleteProductImage(image.id, image.url)}
                   type="button"
                   className="btn-danger rounded-b-xl w-full"
                 >

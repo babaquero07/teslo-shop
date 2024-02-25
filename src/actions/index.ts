@@ -7,6 +7,7 @@ export * from "./products/product-paginations";
 export * from "./products/get-product-by-slug";
 export * from "./products/get-stock-by-slug";
 export * from "./products/create-update-product";
+export * from "./products/delete-product-image";
 
 export * from "./country/get-countries";
 
