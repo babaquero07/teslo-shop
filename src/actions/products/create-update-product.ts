@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 
 import { Gender, Product, Size } from "@prisma/client";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 const productSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -29,10 +30,6 @@ export const createUpdateProduct = async (formData: FormData) => {
   const productParsed = productSchema.safeParse(data);
 
   if (!productParsed.success) {
-    console.log(
-      "🚀 ~ createUpdateProduct ~ productParsed.error:",
-      productParsed.error
-    );
     return { ok: false };
   }
 
@@ -41,44 +38,54 @@ export const createUpdateProduct = async (formData: FormData) => {
 
   const { id, ...rest } = product;
 
-  const prismaTx = await prisma.$transaction(async (tx) => {
-    let product: Product;
-    const tagsArray = rest.tags
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase());
+  try {
+    const prismaTx = await prisma.$transaction(async (tx) => {
+      let product: Product;
+      const tagsArray = rest.tags
+        .split(",")
+        .map((tag) => tag.trim().toLowerCase());
 
-    if (id) {
-      product = await prisma.product.update({
-        where: { id },
-        data: {
-          ...rest,
-          sizes: {
-            set: rest.sizes as Size[],
+      if (id) {
+        product = await prisma.product.update({
+          where: { id },
+          data: {
+            ...rest,
+            sizes: {
+              set: rest.sizes as Size[],
+            },
+            tags: {
+              set: tagsArray,
+            },
           },
-          tags: {
-            set: tagsArray,
+        });
+      } else {
+        // create product
+        product = await prisma.product.create({
+          data: {
+            ...rest,
+            sizes: {
+              set: rest.sizes as Size[],
+            },
+            tags: {
+              set: tagsArray,
+            },
           },
-        },
-      });
-    } else {
-      // create product
-      product = await prisma.product.create({
-        data: {
-          ...rest,
-          sizes: {
-            set: rest.sizes as Size[],
-          },
-          tags: {
-            set: tagsArray,
-          },
-        },
-      });
-    }
+        });
+      }
 
-    return {
-      product,
-    };
-  });
+      return {
+        product,
+      };
+    });
 
-  return { ok: true };
+    revalidatePath("/admin/products");
+    revalidatePath(`/admin/product/${product.slug}`);
+    revalidatePath(`/products/${product.slug}`);
+
+    return { ok: true, product: prismaTx.product };
+  } catch (error) {
+    console.log(error);
+
+    return { ok: false, message: "Error saving product" };
+  }
 };

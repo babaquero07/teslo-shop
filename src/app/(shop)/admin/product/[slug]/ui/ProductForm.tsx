@@ -3,6 +3,7 @@
 import { Product, Category, ProductImage } from "@/interfaces";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
@@ -31,6 +32,8 @@ interface FormInputs {
 }
 
 export const ProductForm = ({ product, categories }: Props) => {
+  const router = useRouter();
+
   const {
     handleSubmit,
     register,
@@ -77,8 +80,14 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
 
-    const { ok } = await createUpdateProduct(formData);
-    console.log("🚀 ~ onSubmit ~ ok:", ok);
+    const { ok, product: updatedProduct } = await createUpdateProduct(formData);
+
+    if (!ok) {
+      alert("Product not saved");
+      return;
+    }
+
+    router.replace(`/admin/product/${updatedProduct?.slug}`);
   };
 
   return (
