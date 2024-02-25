@@ -73,6 +73,11 @@ export const createUpdateProduct = async (formData: FormData) => {
         });
       }
 
+      // Load and save of images
+      if (formData.getAll("images")) {
+        // TODO: Save images
+      }
+
       return {
         product,
       };
